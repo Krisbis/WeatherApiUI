@@ -34,6 +34,7 @@ async function fetchTempTwenty(table) {
     // Extract the temperature values from the API data
     const temperatures = apiData.slice(-20).map((data) => data.temperature);
     const times = apiData.slice(-20).map((data) => data.date_time);
+    console.log(apiData);
 
     // Create the Chart.js chart
     const canvas = document.getElementById("myChart");
