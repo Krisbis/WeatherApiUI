@@ -6,6 +6,7 @@ const tempTwentyAPI =
 const winSpdTwentyAPI =
   "http://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed";
 
+  console.log("Toimii");
 async function fetchAPI() {
   try {
     const response = await fetch(API);
@@ -34,7 +35,7 @@ async function fetchTempTwenty(table) {
     // Extract the temperature values from the API data
     const temperatures = apiData.slice(-20).map((data) => data.temperature);
     const times = apiData.slice(-20).map((data) => data.date_time);
-    console.log(apiData);
+    console.log(temperatures);
 
     // Create the Chart.js chart
     const canvas = document.getElementById("myChart");
