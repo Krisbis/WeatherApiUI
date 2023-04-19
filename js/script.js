@@ -1,32 +1,32 @@
 console.log("javascript filepath succesful");
 
-const API = "http://webapi19sa-1.course.tamk.cloud/v1/weather";
-const lastFiftyAPI =
-  "http://webapi19sa-1.course.tamk.cloud/v1/weather/limit/50";
+// const API = "http://webapi19sa-1.course.tamk.cloud/v1/weather";
+// const lastFiftyAPI =
+//   "http://webapi19sa-1.course.tamk.cloud/v1/weather/limit/50";
 const tempTwentyAPI =
   "http://webapi19sa-1.course.tamk.cloud/v1/weather/temperature";
 const winSpdTwentyAPI =
   "http://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed";
 
-async function fetchAPI() {
-  try {
-    const response = await fetch(API);
-    const apiData = await response.json();
-    console.log(apiData);
-  } catch (error) {
-    console.log(error);
-  }
-}
+// async function fetchAPI() {
+//   try {
+//     const response = await fetch(API);
+//     const apiData = await response.json();
+//     console.log(apiData);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
-async function fetchLastfifty() {
-  try {
-    const response = await fetch(lastFiftyAPI);
-    const apiData = await response.json();
-    console.log(apiData);
-  } catch (error) {
-    console.log(error);
-  }
-}
+// async function fetchLastfifty() {
+//   try {
+//     const response = await fetch(lastFiftyAPI);
+//     const apiData = await response.json();
+//     console.log(apiData);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 async function fetchTempTwenty(table) {
   try {
