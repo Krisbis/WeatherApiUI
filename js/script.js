@@ -93,7 +93,7 @@ async function fetchTempTwenty(table) {
 }
 // Conditional call for the function - could've done it inside
 // the code block, but this seemed to bring more clarity to code
-if (window.location.pathname === "/temperature.html") {
+if (window.location.pathname === "./temperature.html") {
   window.addEventListener(
     "load",
     fetchTempTwenty(document.querySelector("table"))
@@ -163,7 +163,7 @@ async function fetchWinSpdTwenty(table) {
     console.log(error);
   }
 }
-if (window.location.pathname === "/windspeed.html") {
+if (window.location.pathname === "./windspeed.html") {
   window.addEventListener(
     "load",
     fetchWinSpdTwenty(document.querySelector("table"))
