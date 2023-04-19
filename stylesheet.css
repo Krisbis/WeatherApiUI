@@ -31,3 +31,7 @@ thead{
   background-color: #dfdf15;
   color: white;
 }
+
+.nav-item>a:hover {
+  color: green;
+}
