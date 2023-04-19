@@ -1,3 +1,5 @@
+console.log("javascript filepath succesful");
+
 const API = "http://webapi19sa-1.course.tamk.cloud/v1/weather";
 const lastFiftyAPI =
   "http://webapi19sa-1.course.tamk.cloud/v1/weather/limit/50";
@@ -6,7 +8,6 @@ const tempTwentyAPI =
 const winSpdTwentyAPI =
   "http://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed";
 
-  console.log("Toimii");
 async function fetchAPI() {
   try {
     const response = await fetch(API);
@@ -93,7 +94,7 @@ async function fetchTempTwenty(table) {
 }
 // Conditional call for the function - could've done it inside
 // the code block, but this seemed to bring more clarity to code
-if (window.location.pathname === "./temperature.html") {
+if (window.location.pathname === "/temperature.html") {
   window.addEventListener(
     "load",
     fetchTempTwenty(document.querySelector("table"))
@@ -163,7 +164,7 @@ async function fetchWinSpdTwenty(table) {
     console.log(error);
   }
 }
-if (window.location.pathname === "./windspeed.html") {
+if (window.location.pathname === "/windspeed.html") {
   window.addEventListener(
     "load",
     fetchWinSpdTwenty(document.querySelector("table"))
