@@ -182,18 +182,6 @@ function convertTime(time) {
   return formattedTime;
 }
 
-// Get the current page path
-const currentPagePath = window.location.pathname;
-
-// Loop through all the links and add the "active" class to the link that corresponds to the current page
-const links = document.querySelectorAll("nav a");
-for (const link of links) {
-  if (link.getAttribute("href") === currentPagePath) {
-    link.classList.add("active");
-    break;
-  }
-}
-
 function autoRefresh() {
   window.location = window.location.href;
 }
