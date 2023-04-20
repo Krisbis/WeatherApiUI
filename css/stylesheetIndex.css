@@ -1,0 +1,92 @@
+html {
+  display: flex;
+  height: 100%;
+  min-width: 100%;
+}
+
+body {
+  height: 100%;
+  min-width: 100%;
+  margin: 0px;
+  padding: 0%;
+  height: 100%;
+  background-color: white;
+}
+
+h1 {
+  font-size: 150px;
+}
+
+h2 {
+  font-size: 50px;
+  font-weight: 100;
+  color: black;
+  opacity: 50%;
+}
+
+.main_container {
+  text-align: center;
+  color: rgb(0, 0, 0);
+}
+
+#current_temp {
+  background-image: url(https://cdn.pixabay.com/photo/2017/07/03/20/17/abstract-2468874_960_720.jpg);
+  background-attachment: fixed;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  margin: 0px;
+  padding: 0px;
+}
+
+.secondary_container {
+  display: flex;
+  color: aliceblue;
+  justify-content: center;
+  align-items: center;
+  overflow-y: hidden;
+}
+
+#weather_info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  margin: 25px;
+  color: black;
+  opacity: 50%;
+}
+.logos {
+  height: 70px;
+}
+#weather_desc {
+  font-size: 40px;
+  color: black;
+  opacity: 50%;
+  margin-bottom: 50px;
+  margin-top: 25px;
+  padding: 0px;
+}
+
+#upcoming_weather {
+  font-size: medium;
+  color: black;
+  opacity: 75%;
+}
+
+.card {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 125px;
+  height: 100px;
+  box-shadow: 0 0px 12px 0 rgba(1, 1, 1, 0.751);
+  transition: 0.3s;
+  margin: 10px;
+  border-radius: 15%;
+}
+.card:hover {
+  color: white;
+  background-color: #40d915;
+ 
+  
+}

@@ -1,8 +1,8 @@
 console.log("javascript filepath succesful");
 
 // const API = "http://webapi19sa-1.course.tamk.cloud/v1/weather";
-// const lastFiftyAPI =
-//   "http://webapi19sa-1.course.tamk.cloud/v1/weather/limit/50";
+const lastFiftyAPI =
+  "http://webapi19sa-1.course.tamk.cloud/v1/weather/limit/50";
 const tempTwentyAPI =
   "http://webapi19sa-1.course.tamk.cloud/v1/weather/temperature";
 const winSpdTwentyAPI =
@@ -18,15 +18,59 @@ const winSpdTwentyAPI =
 //   }
 // }
 
-// async function fetchLastfifty() {
-//   try {
-//     const response = await fetch(lastFiftyAPI);
-//     const apiData = await response.json();
-//     console.log(apiData);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+async function fetchLastfifty(table) {
+  try {
+    const response = await fetch(lastFiftyAPI);
+    const apiData = await response.json();
+
+    // Extract the types, values and time from API
+    // Types and values were in nested object, unlike the individual
+    // value holders, like temperature or windspeed
+    // so i iterated through all of the objects called "data"
+    // and pushed them to an array created outside of the function scope
+    const times = apiData.slice(-50).map((data) => data.date_time);
+    const dataArr = [];
+    apiData.forEach(function (obj) {
+      for ([type, value] of Object.entries(obj.data)) {
+        console.log("Type: " + type + ", Value: " + value);
+        dataArr.push({type, value});
+      }
+    });
+
+    // Create the table of information
+    const tableHead = table.querySelector("thead");
+    const tableBody = table.querySelector("tbody");
+    tableHead.innerHTML =
+      '<tr><th scope="col">#</th><th scope="col">Time & Date</th><th scope="col">Tye</th><th scope="col">Value</th></tr>';
+    tableBody.innerHTML = "";
+    for (let i = 1; i < times.length; i++) {
+      const t = times[i];
+      const type = dataArr[i].type;
+      const value = dataArr[i].value;
+      const cellElement = document.createElement("tr");
+      cellElement.innerHTML =
+        '<td scope="row">' +
+        i +
+        "</td><td>" +
+        convertTime(t) +
+        "</td><td>" +
+        type +
+        "</td><td>" +
+        value +
+        "</td>";
+      tableBody.appendChild(cellElement);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+// Conditional call for the function - event listener calls
+// function directly if the filepath returns true
+if (window.location.href.endsWith("/last50readings.html")) {
+  document.addEventListener("DOMContentLoaded", function () {
+    fetchLastfifty(document.querySelector("table"));
+  });
+}
 
 async function fetchTempTwenty(table) {
   try {
@@ -71,7 +115,7 @@ async function fetchTempTwenty(table) {
     const tableHead = table.querySelector("thead");
     const tableBody = table.querySelector("tbody");
     tableHead.innerHTML =
-      '<tr><th scope="col">#</th><th scope="col">Time</th><th scope="col">Temperature</th></tr>';
+      '<tr><th scope="col">#</th><th scope="col">Time & Date</th><th scope="col">Temperature</th></tr>';
     tableBody.innerHTML = "";
     for (let i = 1; i < times.length; i++) {
       const t = times[i];
@@ -95,7 +139,7 @@ async function fetchTempTwenty(table) {
 // Conditional call for the function - could've done it inside
 // the code block, but this seemed to bring more clarity to code
 if (window.location.href.endsWith("/temperature.html")) {
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     fetchTempTwenty(document.querySelector("table"));
   });
 }
@@ -142,7 +186,7 @@ async function fetchWinSpdTwenty(table) {
     const tableHead = table.querySelector("thead");
     const tableBody = table.querySelector("tbody");
     tableHead.innerHTML =
-      '<tr><th scope="col">#</th><th scope="col">Time</th><th scope="col">Windspeed</th></tr>';
+      '<tr><th scope="col">#</th><th scope="col">Time & Date</th><th scope="col">Windspeed</th></tr>';
     tableBody.innerHTML = "";
     for (let i = 1; i < times.length; i++) {
       const t = times[i];
@@ -164,7 +208,7 @@ async function fetchWinSpdTwenty(table) {
   }
 }
 if (window.location.href.endsWith("/windspeed.html")) {
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     fetchWinSpdTwenty(document.querySelector("table"));
   });
 }
