@@ -94,11 +94,10 @@ async function fetchTempTwenty(table) {
 }
 // Conditional call for the function - could've done it inside
 // the code block, but this seemed to bring more clarity to code
-if (window.location.pathname === "/temperature.html") {
-  window.addEventListener(
-    "load",
-    fetchTempTwenty(document.querySelector("table"))
-  );
+if (window.location.href.endsWith("/temperature.html")) {
+  document.addEventListener("DOMContentLoaded", function() {
+    fetchTempTwenty(document.querySelector("table"));
+  });
 }
 
 async function fetchWinSpdTwenty(table) {
@@ -164,11 +163,10 @@ async function fetchWinSpdTwenty(table) {
     console.log(error);
   }
 }
-if (window.location.pathname === "/windspeed.html") {
-  window.addEventListener(
-    "load",
-    fetchWinSpdTwenty(document.querySelector("table"))
-  );
+if (window.location.href.endsWith("/windspeed.html")) {
+  document.addEventListener("DOMContentLoaded", function() {
+    fetchWinSpdTwenty(document.querySelector("table"));
+  });
 }
 
 // This was formulated by chatGPT,
