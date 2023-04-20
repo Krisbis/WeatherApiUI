@@ -27,11 +27,60 @@ thead{
   color: white;
 }
 
+::-webkit-scrollbar{
+  width: 7px;
+}
+
+::-webkit-scrollbar-track{
+ background: white;
+}
+
+::-webkit-scrollbar-thumb{
+  background: #D1D119;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background: #a9a91e;
+}
+
 .table-hover thead tr:hover th, .table-hover tbody tr:hover td{
   background-color: #dfdf15;
-  color: white;
+  color:green;
 }
 
 .nav-item>a:hover {
   color: green;
+}
+
+.stat_container{
+  width: 125px;
+  height: 100px;
+  box-shadow: 0 0px 12px 0 rgba(1, 1, 1, 0.751);
+  margin: 10px;
+  border-radius: 15%;
+}
+
+#animated_text{
+  background-image: url(https://cdn.pixabay.com/photo/2017/03/05/18/08/texture-2119294__340.jpg);
+  background-attachment: fixed;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  margin: 0px;
+  padding: 0px;
+  font-size: 100px;
+}
+
+@media screen and (max-width: 600px) {
+  #animated_text{
+    font-size: 70px;
+  }
+  canvas{
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  canvas{
+    width: 80%;
+  }
 }

@@ -40,7 +40,7 @@ h2 {
 
 .secondary_container {
   display: flex;
-  color: aliceblue;
+  color: white;
   justify-content: center;
   align-items: center;
   overflow-y: hidden;

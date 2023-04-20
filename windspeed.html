@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
 
     <title>Document</title>
 
@@ -36,9 +39,7 @@
         <div id="main-navigation" class="collapse navbar-collapse">
           <ul class="navbar-nav ms-auto text-center mx-2">
             <li class="nav-item">
-              <a class="nav-link" href="./last50readings.html"
-                >Recent</a
-              >
+              <a class="nav-link" href="./last50readings.html">Recent</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="./windspeed.html">Windspeed</a>
@@ -61,12 +62,38 @@
     </div>
     <br />
     <br />
+    <div class="d-flex justify-content-center">
+      <h1 id="animated_text">Windspeed</h1>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
     <div class="chart_container d-flex">
       <canvas id="myChart"></canvas>
     </div>
     <br />
     <br />
-    <h3 class="d-flex justify-content-center opacity-50">Last 20 readings from API</h3>
+    <h4 class="opacity-50 text-center">Key Statistics</h4>
+    <div class="container d-flex justify-content-evenly opacity-50 text-center">
+      <div class="stat_container d-flex flex-column justify-content-evenly">
+        <h5>Mean</h5>
+        <h4 id="mean">404</h4>
+      </div>
+      <div class="stat_container d-flex flex-column justify-content-evenly">
+        <h5>Mode</h5>
+        <h4 id="mode">404</h4>
+      </div>
+      <div class="stat_container d-flex flex-column justify-content-evenly">
+        <h5>Median</h5>
+        <h4 id="median">404</h4>
+      </div>
+    </div>
+    <br />
+    <br />
+    <h3 class="d-flex justify-content-center opacity-50">
+      Last 20 readings from API
+    </h3>
     <div class="container d-flex">
       <table class="table table-hover table-striped table-borderless">
         <thead>
@@ -86,6 +113,7 @@
       integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="./js/script.js"></script>
   </body>
 </html>

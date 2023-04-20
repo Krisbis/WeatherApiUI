@@ -32,7 +32,7 @@ async function fetchLastfifty(table) {
     const dataArr = [];
     apiData.forEach(function (obj) {
       for ([type, value] of Object.entries(obj.data)) {
-        dataArr.push({type, value});
+        dataArr.push({ type, value });
       }
     });
 
@@ -40,7 +40,7 @@ async function fetchLastfifty(table) {
     const tableHead = table.querySelector("thead");
     const tableBody = table.querySelector("tbody");
     tableHead.innerHTML =
-      '<tr><th scope="col">#</th><th scope="col">Time & Date</th><th scope="col">Tye</th><th scope="col">Value</th></tr>';
+      '<tr><th scope="col">#</th><th scope="col">Time & Date</th><th scope="col">Type</th><th scope="col">Value</th></tr>';
     tableBody.innerHTML = "";
     for (let i = 1; i < times.length; i++) {
       const t = times[i];
@@ -130,6 +130,18 @@ async function fetchTempTwenty(table) {
         "</td>";
       tableBody.appendChild(cellElement);
     }
+
+    // Statistic- variables to point html elements,
+    // then assigning values to them by external function
+    // Would have done other js- file specifically for statistics,
+    // but these are easy to implement so i will keep them in main script
+    const temperaturesArr = roundToOneDecimal(temperatures);
+    const meanElement = document.getElementById("mean");
+    const modeElement = document.getElementById("mode");
+    const medianElement = document.getElementById("median");
+    meanElement.innerHTML = getMean(temperaturesArr) + "°C";
+    modeElement.innerHTML = getMode(temperaturesArr) + "°C";
+    medianElement.innerHTML = getMedian(temperaturesArr) + "°C";
   } catch (error) {
     console.log(error);
   }
@@ -201,6 +213,18 @@ async function fetchWinSpdTwenty(table) {
         "</td>";
       tableBody.appendChild(cellElement);
     }
+
+    // Statistic- variables to point html elements,
+    // then assigning values to them by external function
+    // Would have done other js- file specifically for statistics,
+    // but these are easy to implement so i will keep them in main script
+    const windspeedsArr = roundToOneDecimal(windspeeds);
+    const meanElement = document.getElementById("mean");
+    const modeElement = document.getElementById("mode");
+    const medianElement = document.getElementById("median");
+    meanElement.innerHTML = getMean(windspeedsArr) + " m/s";
+    modeElement.innerHTML = getMode(windspeedsArr) + " m/s";
+    medianElement.innerHTML = getMedian(windspeedsArr) + " m/s";
   } catch (error) {
     console.log(error);
   }
@@ -225,7 +249,74 @@ function convertTime(time) {
   return formattedTime;
 }
 
+// Median- function
+function getMedian(arr) {
+  const sortedArr = arr.sort((a, b) => a - b);
+  const mid = Math.floor(sortedArr.length / 2);
+
+  if (sortedArr.length % 2 === 0) {
+    outcome = (sortedArr[mid - 1] + sortedArr[mid]) / 2
+    return outcome.toFixed(1);
+  } else {
+    return sortedArr[mid].toFixed(1);
+  }
+}
+
+// Mode- function
+function getMode(arr) {
+  let mode = 0;
+  let count = 0;
+
+  for (let i = 0; i < arr.length; i++) {
+    let currentCount = 0;
+    for (let j = 0; j < arr.length; j++) {
+      if (arr[j] === arr[i]) {
+        currentCount++;
+      }
+    }
+    if (currentCount > count) {
+      mode = arr[i];
+      count = currentCount;
+    }
+  }
+
+  return mode.toFixed(1);
+}
+
+// Mean- function
+function getMean(arr) {
+  let sum = 0;
+  for (let i = 0; i < arr.length; i++) {
+    sum += arr[i];
+  }
+  let outcome = sum / arr.length;
+  return outcome.toFixed(1);
+}
+
+// Function that converts string objects to numbers, and
+// also rounds them for statistical calculations
+function roundToOneDecimal(numbers) {
+  const roundedNumbers = [];
+  for (let i = 0; i < numbers.length; i++) {
+    const number = parseFloat(numbers[i]);
+    const rounded = number.toFixed(1);
+    roundedNumbers.push(parseFloat(rounded));
+  }
+  return roundedNumbers;
+}
+
+// Refresh- function for the website
 function autoRefresh() {
   window.location = window.location.href;
 }
 setInterval("autoRefresh()", 500000);
+
+// Function for gsap text animation - windspeed, temperature.html
+function animatedText() {
+  let tl = gsap.timeline({ repeat: -1 });
+  tl.to("h1", 30, { backgroundPosition: "-960px 0" });
+}
+document.addEventListener("DOMContentLoaded", function () {
+  animatedText();
+});
+
