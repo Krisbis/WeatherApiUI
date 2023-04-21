@@ -2,26 +2,19 @@ console.log("script.js linked");
 chartEmpty = true;
 let chart = null;
 
-// const API = "http://webapi19sa-1.course.tamk.cloud/v1/weather";
-const lastFiftyAPI =
-  "http://webapi19sa-1.course.tamk.cloud/v1/weather/limit/50";
+// ---------------------APIS------------------------
+// const lastFiftyAPI =
+//   "http://webapi19sa-1.course.tamk.cloud/v1/weather/limit/50";
 // const tempTwentyAPI =
 //   "http://webapi19sa-1.course.tamk.cloud/v1/weather/temperature";
-const winSpdTwentyAPI =
-  "http://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed";
-
-// async function fetchAPI() {
-//   try {
-//     const response = await fetch(API);
-//     const apiData = await response.json();
-//     console.log(apiData);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+// const winSpdTwentyAPI =
+//   "http://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed";
+// -------------------------------------------------
 
 async function fetchLastfifty(table) {
   try {
+    const lastFiftyAPI =
+      "http://webapi19sa-1.course.tamk.cloud/v1/weather/limit/50";
     const response = await fetch(lastFiftyAPI);
     const apiData = await response.json();
 
@@ -182,7 +175,7 @@ async function fetchWinSpdTwenty(table, limit) {
     // Create the table of information
     const tableHead = table.querySelector("thead");
     const tableBody = table.querySelector("tbody");
-    const tableDesc = document.getElementById("apiLog")
+    const tableDesc = document.getElementById("apiLog");
     tableDesc.innerHTML = `API readings from timeframe: ${limit}`;
     tableHead.innerHTML =
       '<tr><th scope="col">#</th><th scope="col">Time & Date</th><th scope="col">Windspeed</th></tr>';
@@ -235,6 +228,89 @@ if (window.location.href.endsWith("/windspeed.html")) {
   document.addEventListener("DOMContentLoaded", function () {
     const defaultLimit = 20;
     fetchWinSpdTwenty(table, defaultLimit);
+  });
+}
+
+async function fetchHumidity(table, limit) {
+  try {
+    const humidityAPI = `https://webapi19sa-1.course.tamk.cloud/v1/weather/humidity_out/${limit}`;
+    const response = await fetch(humidityAPI);
+    const apiData = await response.json();
+
+    // Extract the temperature values from the API data
+    const humidities = apiData.map((data) => data.humidity_out);
+    const times = apiData.map((data) => data.date_time);
+
+    // Create the Chart.js chart
+    if (chartEmpty) {
+      type = "Humidity";
+      makeChart(humidities, limit, type);
+      chartEmpty = false;
+    } else {
+      chart.data.datasets[0].data = humidities;
+      chart.data.labels = [...Array(times.length).keys()].map(
+        (i) => `Reading ${i + 1}`
+      );
+      chart.update();
+    }
+
+    // Create the table of information
+    const tableHead = table.querySelector("thead");
+    const tableBody = table.querySelector("tbody");
+    const tableDesc = document.getElementById("apiLog");
+    tableDesc.innerHTML = `API readings from timeframe: ${limit}`;
+    tableHead.innerHTML =
+      '<tr><th scope="col">#</th><th scope="col">Time & Date</th><th scope="col">Humidity</th></tr>';
+    tableBody.innerHTML = "";
+    for (let i = 1; i < times.length; i++) {
+      const t = times[i];
+      const c = humidities[i];
+      const cellElement = document.createElement("tr");
+      cellElement.innerHTML =
+        '<td scope="row">' +
+        i +
+        "</td><td>" +
+        convertTime(t) +
+        "</td><td>" +
+        c +
+        " %" +
+        "</td>";
+      tableBody.appendChild(cellElement);
+    }
+
+    // Statistic- variables to point html elements,
+    // then assigning values to them by external function
+    // Would have done other js- file specifically for statistics,
+    // but these are easy to implement so i will keep them in main script
+    const humiditiesArr = roundToOneDecimal(humidities);
+    const meanElement = document.getElementById("mean");
+    const modeElement = document.getElementById("mode");
+    const medianElement = document.getElementById("median");
+    const rangeElement = document.getElementById("range");
+    const stdDevElement = document.getElementById("stdDev");
+    meanElement.innerHTML = getMean(humiditiesArr) + "%";
+    modeElement.innerHTML = getMode(humiditiesArr) + "%";
+    medianElement.innerHTML = getMedian(humiditiesArr) + "%";
+    rangeElement.innerHTML = getRange(humiditiesArr) + "%";
+    stdDevElement.innerHTML = getStdDev(humiditiesArr) + "%";
+  } catch (error) {
+    console.log(error);
+  }
+}
+// Conditional call for the function
+if (window.location.href.endsWith("/humidity.html")) {
+  const table = document.querySelector("table");
+  const limitInput = document.getElementById("limitInput");
+
+  limitInput.addEventListener("change", () => {
+    const limit = limitInput.value;
+    console.log(limit);
+    fetchHumidity(table, limit);
+  });
+  // Default call with limit of 20
+  document.addEventListener("DOMContentLoaded", function () {
+    const defaultLimit = 20;
+    fetchHumidity(table, defaultLimit);
   });
 }
 
