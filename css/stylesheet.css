@@ -58,6 +58,12 @@ thead{
   box-shadow: 0 0px 12px 0 rgba(1, 1, 1, 0.751);
   margin: 10px;
   border-radius: 15%;
+  color: grey;
+}
+
+.stat_container:hover{
+  color: white;
+  background-color: #D1D119;
 }
 
 #animated_text{
