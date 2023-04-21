@@ -74,6 +74,22 @@
     </div>
     <br />
     <br />
+    <div class="d-flex justify-content-center">
+      <label for="limitInput"></label>
+      <select
+        id="limitInput"
+        name="limitInput"
+        class="form-select form-select-sm w-25"
+      >
+        <option value="24">24 hours</option>
+        <option value="48">48 hours</option>
+        <option value="78">78 hours</option>
+        <option value="1week">1 week</option>
+        <option value="1month">1 month</option>
+      </select>
+    </div>
+    <br />
+    <br />
     <h4 class="opacity-50 text-center">Key Statistics</h4>
     <div class="container d-flex justify-content-evenly opacity-50 text-center">
       <div class="stat_container d-flex flex-column justify-content-evenly">
@@ -87,6 +103,14 @@
       <div class="stat_container d-flex flex-column justify-content-evenly">
         <h5>Median</h5>
         <h4 id="median">404</h4>
+      </div>
+      <div class="stat_container d-flex flex-column justify-content-evenly">
+        <h5>Range</h5>
+        <h4 id="range">404</h4>
+      </div>
+      <div class="stat_container d-flex flex-column justify-content-evenly">
+        <h5>StdDev</h5>
+        <h4 id="stdDev">404</h4>
       </div>
     </div>
     <br />

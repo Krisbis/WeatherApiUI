@@ -1,10 +1,12 @@
-console.log("javascript filepath succesful");
+console.log("script.js linked");
+chartEmpty = true;
+let chart = null;
 
 // const API = "http://webapi19sa-1.course.tamk.cloud/v1/weather";
 const lastFiftyAPI =
   "http://webapi19sa-1.course.tamk.cloud/v1/weather/limit/50";
-const tempTwentyAPI =
-  "http://webapi19sa-1.course.tamk.cloud/v1/weather/temperature";
+// const tempTwentyAPI =
+//   "http://webapi19sa-1.course.tamk.cloud/v1/weather/temperature";
 const winSpdTwentyAPI =
   "http://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed";
 
@@ -71,43 +73,28 @@ if (window.location.href.endsWith("/last50readings.html")) {
   });
 }
 
-async function fetchTempTwenty(table) {
+async function fetchTempTwenty(table, limit) {
   try {
+    const tempTwentyAPI = `https://webapi19sa-1.course.tamk.cloud/v1/weather/temperature/${limit}`;
     const response = await fetch(tempTwentyAPI);
     const apiData = await response.json();
 
     // Extract the temperature values from the API data
-    const temperatures = apiData.slice(-20).map((data) => data.temperature);
-    const times = apiData.slice(-20).map((data) => data.date_time);
+    const temperatures = apiData.map((data) => data.temperature);
+    const times = apiData.map((data) => data.date_time);
 
     // Create the Chart.js chart
-    const canvas = document.getElementById("myChart");
-    const chart = new Chart(canvas, {
-      type: "line",
-      data: {
-        labels: [...Array(20).keys()].map((i) => `Reading ${i + 1}`),
-        datasets: [
-          {
-            label: "Temperature",
-            data: temperatures,
-            backgroundColor: "cyan",
-            borderColor: "cyan",
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-            },
-          ],
-        },
-      },
-    });
+    if (chartEmpty) {
+      type = "Temperature";
+      makeChart(temperatures, limit, type);
+      chartEmpty = false;
+    } else {
+      chart.data.datasets[0].data = temperatures;
+      chart.data.labels = [...Array(times.length).keys()].map(
+        (i) => `Reading ${i + 1}`
+      );
+      chart.update();
+    }
 
     // Create the table of information
     const tableHead = table.querySelector("thead");
@@ -139,58 +126,56 @@ async function fetchTempTwenty(table) {
     const meanElement = document.getElementById("mean");
     const modeElement = document.getElementById("mode");
     const medianElement = document.getElementById("median");
+    const rangeElement = document.getElementById("range");
+    const stdDevElement = document.getElementById("stdDev");
     meanElement.innerHTML = getMean(temperaturesArr) + "°C";
     modeElement.innerHTML = getMode(temperaturesArr) + "°C";
     medianElement.innerHTML = getMedian(temperaturesArr) + "°C";
+    rangeElement.innerHTML = getRange(temperaturesArr) + "°C";
+    stdDevElement.innerHTML = getStdDev(temperaturesArr) + "°C";
   } catch (error) {
     console.log(error);
   }
 }
-// Conditional call for the function - could've done it inside
-// the code block, but this seemed to bring more clarity to code
+// Conditional call for the function
 if (window.location.href.endsWith("/temperature.html")) {
+  const table = document.querySelector("table");
+  const limitInput = document.getElementById("limitInput");
+
+  limitInput.addEventListener("change", () => {
+    const limit = limitInput.value;
+    console.log(limit);
+    fetchTempTwenty(table, limit);
+  });
+  // Default call with limit of 20
   document.addEventListener("DOMContentLoaded", function () {
-    fetchTempTwenty(document.querySelector("table"));
+    const defaultLimit = 20;
+    fetchTempTwenty(table, defaultLimit);
   });
 }
 
-async function fetchWinSpdTwenty(table) {
+async function fetchWinSpdTwenty(table, limit) {
   try {
+    const winSpdTwentyAPI = `http://webapi19sa-1.course.tamk.cloud/v1/weather/wind_speed/${limit}`;
     const response = await fetch(winSpdTwentyAPI);
     const apiData = await response.json();
 
     // Extract the temperature values from the API data
-    const windspeeds = apiData.slice(-20).map((data) => data.wind_speed);
-    const times = apiData.slice(-20).map((data) => data.date_time);
+    const windspeeds = apiData.map((data) => data.wind_speed);
+    const times = apiData.map((data) => data.date_time);
 
     // Create the Chart.js chart
-    const canvas = document.getElementById("myChart");
-    const chart = new Chart(canvas, {
-      type: "line",
-      data: {
-        labels: [...Array(20).keys()].map((i) => `Reading ${i + 1}`),
-        datasets: [
-          {
-            label: "Windspeed",
-            data: windspeeds,
-            backgroundColor: "cyan",
-            borderColor: "cyan",
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-            },
-          ],
-        },
-      },
-    });
+    if (chartEmpty) {
+      type = "Windspeed";
+      makeChart(windspeeds, limit, type);
+      chartEmpty = false;
+    } else {
+      chart.data.datasets[0].data = windspeeds;
+      chart.data.labels = [...Array(times.length).keys()].map(
+        (i) => `Reading ${i + 1}`
+      );
+      chart.update();
+    }
 
     // Create the table of information
     const tableHead = table.querySelector("thead");
@@ -222,16 +207,30 @@ async function fetchWinSpdTwenty(table) {
     const meanElement = document.getElementById("mean");
     const modeElement = document.getElementById("mode");
     const medianElement = document.getElementById("median");
+    const rangeElement = document.getElementById("range");
+    const stdDevElement = document.getElementById("stdDev");
     meanElement.innerHTML = getMean(windspeedsArr) + " m/s";
     modeElement.innerHTML = getMode(windspeedsArr) + " m/s";
     medianElement.innerHTML = getMedian(windspeedsArr) + " m/s";
+    rangeElement.innerHTML = getRange(windspeedsArr) + " m/s";
+    stdDevElement.innerHTML = getStdDev(windspeedsArr) + " m/s";
   } catch (error) {
     console.log(error);
   }
 }
 if (window.location.href.endsWith("/windspeed.html")) {
+  const table = document.querySelector("table");
+  const limitInput = document.getElementById("limitInput");
+
+  limitInput.addEventListener("change", () => {
+    const limit = limitInput.value;
+    console.log(limit);
+    fetchWinSpdTwenty(table, limit);
+  });
+  // Default call with limit of 20
   document.addEventListener("DOMContentLoaded", function () {
-    fetchWinSpdTwenty(document.querySelector("table"));
+    const defaultLimit = 20;
+    fetchWinSpdTwenty(table, defaultLimit);
   });
 }
 
@@ -249,13 +248,60 @@ function convertTime(time) {
   return formattedTime;
 }
 
+// Chart.js function
+function makeChart(temperatures, times, type) {
+  const canvas = document.getElementById("myChart");
+  chart = new Chart(canvas, {
+    type: "line",
+    data: {
+      labels: [...Array(times).keys()].map((i) => `Reading ${i + 1}`),
+      datasets: [
+        {
+          label: type,
+          data: temperatures,
+          backgroundColor: "cyan",
+          borderColor: "cyan",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
+  });
+}
+
+// Refresh- function for the website
+function autoRefresh() {
+  window.location = window.location.href;
+}
+setInterval("autoRefresh()", 500000);
+
+// Function for gsap text animation - windspeed, temperature.html
+function animatedText() {
+  let tl = gsap.timeline({ repeat: -1 });
+  tl.to("h1", 30, { backgroundPosition: "-960px 0" });
+}
+document.addEventListener("DOMContentLoaded", function () {
+  animatedText();
+});
+
+// ---------------- STATISTIC FUNCTIONS ----------------
 // Median- function
 function getMedian(arr) {
   const sortedArr = arr.sort((a, b) => a - b);
   const mid = Math.floor(sortedArr.length / 2);
 
   if (sortedArr.length % 2 === 0) {
-    outcome = (sortedArr[mid - 1] + sortedArr[mid]) / 2
+    outcome = (sortedArr[mid - 1] + sortedArr[mid]) / 2;
     return outcome.toFixed(1);
   } else {
     return sortedArr[mid].toFixed(1);
@@ -293,6 +339,24 @@ function getMean(arr) {
   return outcome.toFixed(1);
 }
 
+// Range- function
+function getRange(arr) {
+  const max = Math.max(...arr);
+  const min = Math.min(...arr);
+  const range = max - min;
+  return range.toFixed(1);
+}
+
+// Standard deviation- function
+function getStdDev(arr) {
+  const n = arr.length;
+  const mean = arr.reduce((a, b) => a + b) / n;
+  const stdDev = Math.sqrt(
+    arr.map((x) => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+  );
+  return stdDev.toFixed(1);
+}
+
 // Function that converts string objects to numbers, and
 // also rounds them for statistical calculations
 function roundToOneDecimal(numbers) {
@@ -304,19 +368,3 @@ function roundToOneDecimal(numbers) {
   }
   return roundedNumbers;
 }
-
-// Refresh- function for the website
-function autoRefresh() {
-  window.location = window.location.href;
-}
-setInterval("autoRefresh()", 500000);
-
-// Function for gsap text animation - windspeed, temperature.html
-function animatedText() {
-  let tl = gsap.timeline({ repeat: -1 });
-  tl.to("h1", 30, { backgroundPosition: "-960px 0" });
-}
-document.addEventListener("DOMContentLoaded", function () {
-  animatedText();
-});
-
