@@ -339,8 +339,8 @@ function makeChart(temperatures, times, type) {
         {
           label: type,
           data: temperatures,
-          backgroundColor: "cyan",
-          borderColor: "cyan",
+          backgroundColor: "green",
+          borderColor: "green",
           borderWidth: 1,
         },
       ],
