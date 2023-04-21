@@ -99,6 +99,8 @@ async function fetchTempTwenty(table, limit) {
     // Create the table of information
     const tableHead = table.querySelector("thead");
     const tableBody = table.querySelector("tbody");
+    const tableDesc = document.getElementById("apiLog");
+    tableDesc.innerHTML = `API readings from ${limit}`;
     tableHead.innerHTML =
       '<tr><th scope="col">#</th><th scope="col">Time & Date</th><th scope="col">Temperature</th></tr>';
     tableBody.innerHTML = "";
@@ -180,6 +182,8 @@ async function fetchWinSpdTwenty(table, limit) {
     // Create the table of information
     const tableHead = table.querySelector("thead");
     const tableBody = table.querySelector("tbody");
+    const tableDesc = document.getElementById("apiLog")
+    tableDesc.innerHTML = `API readings from ${limit}`;
     tableHead.innerHTML =
       '<tr><th scope="col">#</th><th scope="col">Time & Date</th><th scope="col">Windspeed</th></tr>';
     tableBody.innerHTML = "";

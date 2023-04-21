@@ -58,7 +58,7 @@ async function fetchData() {
 fetchData();
 
 const weatherDescriptions = {
-  0: "Cloud development not observed or not observable",
+  0: "Clear sky",
   1: "Clear sky",
   2: "Few clouds",
   3: "Scattered clouds",
